@@ -1,0 +1,4 @@
+configurationset:
+  - configuration:
+      name: twelvedata
+      Authorization: apikey 0421ed5cbd5f471d9d2cbd81391f9aee
