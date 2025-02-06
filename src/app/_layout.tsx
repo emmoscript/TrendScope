@@ -6,6 +6,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { ApolloProvider } from '@apollo/client';
+import client from '@/src/apollo/client';
 
 import { useColorScheme } from '@/src/components/useColorScheme';
 
@@ -51,12 +53,14 @@ function RootLayoutNav() {
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
+    <ApolloProvider client={client}>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>
+    </ApolloProvider>
     </GestureHandlerRootView>
   );
 }
