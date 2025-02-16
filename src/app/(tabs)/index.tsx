@@ -21,7 +21,7 @@ const query = gql`
 export default function TabOneScreen() {
 
   const {data, loading, error} = useQuery(query, 
-    {variables: {symbol: 'AAPL,IBM,MSFT,META,NVDA,TSLA,AMD'},
+    {variables: {symbol: 'IBM,MSFT,META,NVDA,TSLA,AMD'},
   });
 
   if (loading) {

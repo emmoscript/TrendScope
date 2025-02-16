@@ -27,6 +27,14 @@ type Quote {
   symbol: String
   timestamp: Int
   volume: Date
+  
+  favorite: [Favorites]
+  @materializer(
+    query: "favoritesByUser_idAndSymbol"
+    arguments: [
+      { name: "user_id", field: "user_id" }, 
+      { name: "symbol", field: "symbol" }]
+  )
 }
 
 type Quotes {
@@ -39,13 +47,11 @@ type Query {
     @rest(
       endpoint: "https://api.twelvedata.com/quote"
       configuration: "twelvedata"
-      )
+    )
   quotes(symbol: String): [Quotes]
     @rest(
       endpoint: "https://api.twelvedata.com/quote"
       configuration: "twelvedata"
-      transforms: [
-        {pathpattern: ["<>*"], editor: "objectToArray"}
-          ]
-      )
+      transforms: [{ pathpattern: ["<>*"], editor: "objectToArray" }]
+    )
 }

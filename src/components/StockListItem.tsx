@@ -4,6 +4,17 @@ import { Text, View } from "./Themed";
 import Colors from "../constants/Colors";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link } from "expo-router";
+import { useMutation, gql } from "@apollo/client";
+
+const mutation = gql`
+mutation MyMutation($symbol:String!, $user_id:String!) {
+  insertFavorites(symbol: $symbol, user_id: $user_id) {
+    id
+    symbol
+    user_id
+  }
+}
+`;
 
 type Stock = {
     name: string;
@@ -18,7 +29,13 @@ type StockListItem = {
 
 export default function StockListItem({stock}: StockListItem) {
   
+  const [runMutation] = useMutation(mutation, {variables: {symbol: stock.symbol, user_id: 'emil'}});
+
   const change = Number.parseFloat(stock.percent_change);
+
+  const onFavoritesPressed = () => {
+    runMutation();
+  }
 
   return (
     <Link href={`/${stock.symbol}`} asChild>
@@ -29,7 +46,7 @@ export default function StockListItem({stock}: StockListItem) {
             <Text style={styles.symbol}>
                 {stock.symbol} 
                 {'  '}
-                <FontAwesome name="star-o" size={18} color="gray" />
+                <FontAwesome onPress={onFavoritesPressed} name="star-o" size={18} color="gray" />
             </Text>
             <Text style={{color: 'gray'}}>{stock.name}</Text>
         </View>
